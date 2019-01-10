@@ -1,6 +1,13 @@
 package kmeans.image;
 
 
+/**
+ * This class represents a centroid
+ * 
+ * The attributs are double, because centroids are in general not in the data domain
+ * Here the the values are real means
+ *
+ */
 public class Centroid
 {
   public double alpha;

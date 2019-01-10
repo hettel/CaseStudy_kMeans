@@ -1,5 +1,11 @@
 package kmeans.image;
 
+/**
+ * Instances of this class represents an image pixel
+ * 
+ * During the calculation an image pixel is assigned a cluster represented by a centroid ID
+ *
+ */
 public class PixelData
 {
   public final int x,y;

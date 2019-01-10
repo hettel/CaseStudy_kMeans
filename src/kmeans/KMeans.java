@@ -107,11 +107,14 @@ public final class KMeans
     double gDif = c1.green - c2.green;
     double bDif = c1.blue - c2.blue;
 
+    // In general we don't need the square root by comparing distances
+    // because we are only interested in relative relations
     return Math.sqrt(rDif * rDif + gDif * gDif + bDif * bDif);
   }
 
   
-  // Calculates means in an in non performant way
+  // Calculates means in an in a non performant way
+  // We can do better
   private static Centroid[] getNewCentroids(List<PixelData> dataList, final int k)
   { 
     Centroid[] centroids = new Centroid[k];

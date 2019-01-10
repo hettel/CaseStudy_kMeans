@@ -17,7 +17,7 @@ public class SimpleKMeans extends Application
       BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("ui/ui.fxml"));
       Scene scene = new Scene(root);
       scene.getStylesheets().add(getClass().getResource("ui/ui.css").toExternalForm());
-      primaryStage.setTitle("Sequentail und naive version");
+      primaryStage.setTitle("Simple version");
       primaryStage.setScene(scene);
       primaryStage.show();
     }
