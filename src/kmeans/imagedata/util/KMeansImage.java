@@ -10,12 +10,29 @@ public class KMeansImage
   public final int width;
   public final int height;
   public final List<PixelData> pixels;
+  public final List<Integer> colorList;
   
   public KMeansImage(int width, int height, List<PixelData> pixels)
   {
     this.width = width;
     this.height = height;
     this.pixels = pixels;
+    
+    this.colorList = pixels.stream()
+                      .map(dp -> dp.getRgbColor() )
+                      .distinct()
+                      .sorted()
+                      .collect( Collectors.toUnmodifiableList() );
+  }
+  
+  public List<Integer> getSortedRgbColors()
+  {
+    return this.colorList;
+  }
+  
+  public int getColorCount()
+  {
+    return this.colorList.size();
   }
   
   public int getPixelCount()
@@ -23,9 +40,4 @@ public class KMeansImage
     return this.pixels.size();
   }
   
-  public KMeansImage copy()
-  {
-    List<PixelData> pixelCopy = this.pixels.parallelStream().map( p -> p.copy() ).collect( Collectors.toList() );
-    return new KMeansImage(this.width, this.height, pixelCopy);
-  }
 }

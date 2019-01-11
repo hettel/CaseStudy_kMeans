@@ -206,6 +206,7 @@ public class UIController implements Initializable
     KMeansImage imageCopy = Tools.getKMeanImage(this.mainImageView.getImage());
 
     System.out.println("Amount of pixels : " + imageCopy.getPixelCount());
+    System.out.println("Amount of different colors : " + imageCopy.getColorCount() );
 
     Collection<Centroid> centroids = pack(imageCopy, k);
     showColorMap(centroids);
@@ -232,7 +233,7 @@ public class UIController implements Initializable
   @Override
   public void initialize(URL location, ResourceBundle resources)
   {
-    clusterCount.addAll(1, 2, 3, 4, 5, 6, 7, 8, 9);
+    clusterCount.addAll( 2, 3, 4, 5, 6, 7, 8, 9);
     clusterSelect.setItems(clusterCount);
     clusterSelect.getSelectionModel().selectFirst();
     this.colorMap = new Label[] { color1, color2, color3, color4, color5, color6, color7, color8, color9 };

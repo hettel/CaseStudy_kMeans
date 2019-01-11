@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
+
 
 import kmeans.image.Centroid;
 import kmeans.image.PixelData;
@@ -55,13 +55,7 @@ public final class KMeans
     List<PixelData> dataSet = image.pixels;
     
     // Get alle different colors
-    List<Integer> rgbColors = dataSet.stream()
-                                    .map(dp -> dp.getRgbColor() )
-                                    .distinct()
-                                    .sorted()
-                                    .collect( Collectors.toList() );
-    
-    System.out.println("Amount of different colors : " + rgbColors.size() );
+    List<Integer> rgbColors = image.getSortedRgbColors();
     int chunkSize = rgbColors.size()/k;
     
     // Determine equaly distributed colors for centroids
