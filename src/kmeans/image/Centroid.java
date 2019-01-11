@@ -22,6 +22,14 @@ public class Centroid
     this.blue = blue;
   }
   
+  public Centroid(int rgb)
+  {
+    this.alpha = (rgb >> 24) & 0xff;
+    this.red = (rgb >> 16) & 0xff;
+    this.green = (rgb >> 8) & 0xff;
+    this.blue = (rgb) & 0xff;
+  }
+  
   
   public int getRgbColor()
   {
