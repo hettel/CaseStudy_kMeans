@@ -42,14 +42,14 @@
                               </ImageView>
                            </children>
                         </VBox>
-                        <VBox fx:id="kMeanImageContainer">
+                        <VBox fx:id="kMeansImageContainer">
                            <children>
-                              <Label text="Reduziert">
+                              <Label text="Color reduced with k-means">
                                  <padding>
                                     <Insets bottom="10.0" top="10.0" />
                                  </padding>
                               </Label>
-                              <ImageView fx:id="kmeanImageView" fitHeight="530.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="kMeansImageView" fitHeight="530.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@HS-KL.jpg" />
                                  </image>

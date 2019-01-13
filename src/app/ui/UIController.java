@@ -30,6 +30,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -46,12 +47,14 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import kmeans.image.Centroid;
@@ -67,13 +70,13 @@ public class UIController implements Initializable
   private BorderPane mainWindow;
 
   @FXML
-  private VBox kMeanImageContainer;
+  private VBox kMeansImageContainer;
 
   @FXML
   private ImageView mainImageView;
 
   @FXML
-  private ImageView kmeanImageView;
+  private ImageView kMeansImageView;
 
   @FXML
   private HBox imageBox;
@@ -101,6 +104,7 @@ public class UIController implements Initializable
   private Button startBtn;
 
   private Label[] colorMap;
+  private StackPane alternativeImageView;
 
   @FXML
   private ChoiceBox<Integer> clusterSelect;
@@ -116,7 +120,7 @@ public class UIController implements Initializable
   {
     DirectoryChooser dirChooser = new DirectoryChooser();
     dirChooser.setTitle("Select Gallery");
-    dirChooser.setInitialDirectory(Paths.get("./gallery").toFile());
+    dirChooser.setInitialDirectory(Paths.get(".").toFile());
     File file = dirChooser.showDialog(mainWindow.getScene().getWindow());
 
     if (file != null && file.isDirectory())
@@ -141,7 +145,9 @@ public class UIController implements Initializable
               if (mouseEvent.getClickCount() == 1)
               {
                 File file = ((PreviewImage) imageView.getImage()).getFile();
-                showImage(file);
+                loadImage(file);
+                clearColorMap();
+                clearKMeansImage();
               }
             }
           }
@@ -160,12 +166,12 @@ public class UIController implements Initializable
     fileChooser.setInitialDirectory(Paths.get(".").toFile());
     File file = fileChooser.showSaveDialog(mainWindow.getScene().getWindow());
 
-    if (this.kmeanImageView == null || this.kmeanImageView.getImage() == null)
+    if (this.kMeansImageView == null || this.kMeansImageView.getImage() == null)
       return;
 
     try
     {
-      Image image = this.kmeanImageView.getImage();
+      Image image = this.kMeansImageView.getImage();
       BufferedImage outImage = this.getBufferedImage(image);
       ImageIO.write(outImage, "jpg", file);
     }
@@ -178,10 +184,10 @@ public class UIController implements Initializable
   @FXML
   public void upload()
   {
-    if (this.kmeanImageView == null || this.kmeanImageView.getImage() == null)
+    if (this.kMeansImageView == null || this.kMeansImageView.getImage() == null)
       return;
 
-    Image image = this.kmeanImageView.getImage();
+    Image image = this.kMeansImageView.getImage();
 
     try
     {
@@ -216,7 +222,7 @@ public class UIController implements Initializable
       int rgb = (data.alpha << 24) | (data.red << 16) | (data.green << 8) | data.blue;
       imageOut.setRGB(data.x, data.y, rgb);
     });
-    this.kmeanImageView.setImage(SwingFXUtils.toFXImage(imageOut, null));
+    this.kMeansImageView.setImage(SwingFXUtils.toFXImage(imageOut, null));
     
     closeProgressIndicator();
   }
@@ -236,6 +242,9 @@ public class UIController implements Initializable
     clusterCount.addAll( 2, 3, 4, 5, 6, 7, 8, 9);
     clusterSelect.setItems(clusterCount);
     clusterSelect.getSelectionModel().selectFirst();
+    clusterSelect.setOnAction( a -> {clearColorMap(); clearKMeansImage();} );
+    
+    
     this.colorMap = new Label[] { color1, color2, color3, color4, color5, color6, color7, color8, color9 };
     cpuLoadBar.setFill(Color.GREEN);
 
@@ -255,7 +264,7 @@ public class UIController implements Initializable
     cpuLoadBar.setFill(linGradient);
   }
 
-  private void showImage(File file)
+  private void loadImage(File file)
   {
     try
     {
@@ -267,10 +276,10 @@ public class UIController implements Initializable
       mainImageView.setCache(true);
 
       iStream = new ByteArrayInputStream(bytes);
-      kmeanImageView.setImage(new Image(iStream));
-      kmeanImageView.setPreserveRatio(true);
-      kmeanImageView.setSmooth(true);
-      kmeanImageView.setCache(true);
+      kMeansImageView.setImage(new Image(iStream));
+      kMeansImageView.setPreserveRatio(true);
+      kMeansImageView.setSmooth(true);
+      kMeansImageView.setCache(true);
     }
     catch (IOException exce)
     {
@@ -317,6 +326,32 @@ public class UIController implements Initializable
     catch (Exception exce)
     {
       exce.printStackTrace();
+    }
+  }
+  
+  private void clearKMeansImage()
+  {
+    this.kMeansImageContainer.getChildren().remove(kMeansImageView);
+    
+    Bounds bounds = kMeansImageView.getBoundsInParent();
+    
+    Rectangle rect = new Rectangle(bounds.getWidth(), bounds.getHeight());
+    rect.setFill(Color.LIGHTGRAY);
+    rect.setStroke(Color.BLACK);
+    rect.setStrokeWidth(2);
+    Text text = new Text("Press Start");
+    
+    this.alternativeImageView = new StackPane(rect,text);
+    this.kMeansImageContainer.getChildren().add(alternativeImageView);
+  }
+  
+  private void clearColorMap()
+  {
+    Color cornsilk = new Color(255 / 255.0, 248 / 255.0, 220 / 255.0, 1.0);
+    for (Label colorBox : colorMap)
+    {
+      colorBox.setBackground(new Background(new BackgroundFill(cornsilk, null, new Insets(1))));
+      colorBox.setStyle("-fx-border-color: cornsilk;");
     }
   }
 
@@ -383,6 +418,8 @@ public class UIController implements Initializable
 
     return true;
   }
+  
+  // --------- progress handling ---------
 
   private BorderPane progress;
 
@@ -394,8 +431,9 @@ public class UIController implements Initializable
       progress.getStylesheets().add(getClass().getResource("ui.css").toExternalForm());
 
       this.startBtn.setDisable(true);
-      this.kMeanImageContainer.getChildren().remove(kmeanImageView);
-      this.kMeanImageContainer.getChildren().add(progress);
+      this.kMeansImageContainer.getChildren().remove(alternativeImageView);
+      this.kMeansImageContainer.getChildren().remove(kMeansImageView);
+      this.kMeansImageContainer.getChildren().add(progress);
     }
     catch (IOException exce)
     {
@@ -408,8 +446,9 @@ public class UIController implements Initializable
     this.startBtn.setDisable(false);
     if (progress != null)
     {
-      this.kMeanImageContainer.getChildren().remove(progress);
-      this.kMeanImageContainer.getChildren().add(kmeanImageView);
+      this.kMeansImageContainer.getChildren().remove(alternativeImageView);
+      this.kMeansImageContainer.getChildren().remove(progress);
+      this.kMeansImageContainer.getChildren().add(kMeansImageView);
       this.progress = null;
     }
   }

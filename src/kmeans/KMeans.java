@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
+import java.util.concurrent.ThreadLocalRandom;
 
 import kmeans.image.Centroid;
 import kmeans.image.PixelData;
@@ -54,15 +54,18 @@ public final class KMeans
   {
     List<PixelData> dataSet = image.pixels;
     
-    // Get alle different colors
+    // Get all different colors
     List<Integer> rgbColors = image.getSortedRgbColors();
     int chunkSize = rgbColors.size()/k;
     
-    // Determine equaly distributed colors for centroids
+    // Determine equaly distributed colors for the centroids
     Centroid[] centroids = new Centroid[k];
     for(int centroidId=0; centroidId<k; centroidId++)
     {
-      int rgb = rgbColors.get(centroidId*chunkSize);
+      int lowerBound = centroidId*chunkSize;
+      int upperBound = (centroidId+1)*chunkSize < dataSet.size() ? (centroidId+1)*chunkSize : dataSet.size();
+      int randPixelInChunk = ThreadLocalRandom.current().nextInt(lowerBound, upperBound);
+      int rgb = rgbColors.get(randPixelInChunk);
       centroids[centroidId] = new Centroid(rgb);
     }
     
