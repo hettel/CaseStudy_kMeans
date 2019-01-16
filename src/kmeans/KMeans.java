@@ -58,7 +58,7 @@ public final class KMeans
     List<Integer> rgbColors = image.getSortedRgbColors();
     int chunkSize = rgbColors.size()/k;
     
-    // Determine equaly distributed colors for the centroids
+    // Determine equally distributed colors for the centroids
     Centroid[] centroids = new Centroid[k];
     for(int centroidId=0; centroidId<k; centroidId++)
     {

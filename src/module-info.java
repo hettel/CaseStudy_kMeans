@@ -1,7 +1,7 @@
 /**
  * 
  */
-module kmeansCaseStudy
+module kMeansCaseStudy
 {
   opens app.ui to javafx.graphics,javafx.fxml;
   opens app to javafx.graphics,javafx.fxml;
@@ -13,7 +13,6 @@ module kmeansCaseStudy
   requires javafx.swing;
   requires oshi.core;
   
-  exports service; 
   requires transitive javax.servlet.api;
   requires org.eclipse.jetty.server;
   requires org.eclipse.jetty.util;
