@@ -15,13 +15,13 @@ The Project contains two applications.
 1. A program calculating color reduced images by using the k-means algorithm 
 
    Main class: `app.SimpleKMeans`
-2. A simpel http-server program, simulating an image upload server
+2. A simple http-server program, simulating an image upload server
 
    Main class: `server.ServerMain`
 
 ---
 
-Exercise Steps: 
+Exercise steps: 
 
 1. Decouple the k-means calculation from the JavaFX thread
 2. Changing the k-means algorithm so that Java-Streams are used

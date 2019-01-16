@@ -205,18 +205,22 @@ public class UIController implements Initializable
     if (this.mainImageView.getImage() == null)
       return;
 
+    // Starting a progress indicator
     showProgressIndicator();
     
     int k = clusterSelect.getSelectionModel().getSelectedItem();
 
+    // Get the image (left side) an transform it to an internal data structure
     KMeansImage imageCopy = Tools.getKMeanImage(this.mainImageView.getImage());
 
     System.out.println("Amount of pixels : " + imageCopy.getPixelCount());
     System.out.println("Amount of different colors : " + imageCopy.getColorCount() );
 
+    // Make the color reduction and get the mean colors 
     Collection<Centroid> centroids = pack(imageCopy, k);
     showColorMap(centroids);
 
+    // Creating the image for showing it on the ui (on the right)
     BufferedImage imageOut = new BufferedImage(imageCopy.width, imageCopy.height, BufferedImage.TYPE_INT_RGB);
     imageCopy.pixels.stream().forEach(data -> {
       int rgb = (data.alpha << 24) | (data.red << 16) | (data.green << 8) | data.blue;
@@ -224,6 +228,7 @@ public class UIController implements Initializable
     });
     this.kMeansImageView.setImage(SwingFXUtils.toFXImage(imageOut, null));
     
+    // Stop the progress indicator
     closeProgressIndicator();
   }
 
@@ -248,6 +253,7 @@ public class UIController implements Initializable
     this.colorMap = new Label[] { color1, color2, color3, color4, color5, color6, color7, color8, color9 };
     cpuLoadBar.setFill(Color.GREEN);
 
+    // Init the hardware detection for getting the cpu load
     publisher = CpuInfoPublisher.getInstance();
     publisher.subscribe(value -> Platform.runLater(() -> {
       repaintGradient(value);
