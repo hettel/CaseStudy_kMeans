@@ -338,6 +338,7 @@ public class UIController implements Initializable
   private void clearKMeansImage()
   {
     this.kMeansImageContainer.getChildren().remove(kMeansImageView);
+    this.kMeansImageContainer.getChildren().remove(alternativeImageView);
     
     Bounds bounds = kMeansImageView.getBoundsInParent();
     
@@ -348,6 +349,7 @@ public class UIController implements Initializable
     Text text = new Text("Press Start");
     
     this.alternativeImageView = new StackPane(rect,text);
+   
     this.kMeansImageContainer.getChildren().add(alternativeImageView);
   }
   

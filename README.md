@@ -29,7 +29,7 @@ Exercise steps:
 4. Improve the loading of the pre images
 5. Improve the k-means calculation time by using parallel Streams. Introduce appropriate user defined collectors
 6. Decouple the upload request from the JavaFX thread
-7. Build in timeout constraints for the upload process
+7. Build-in timeout constraints for the upload process
 
 All changes can be made in the classes `kmeans.KMeans.java` and `app.ui.UIController.java`
 
