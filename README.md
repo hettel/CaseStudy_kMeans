@@ -10,14 +10,8 @@ Usage condition:
 * OpenJDK 11 is required
 * Dependencies to JavaFX and other libraries are managed by Maven
 
-The Project contains two applications.
+Main class: `app.SimpleKMeans`
 
-1. A program calculating color reduced images by using the k-means algorithm 
-
-   Main class: `app.SimpleKMeans`
-2. A simple http-server program, simulating an image upload server
-
-   Main class: `server.ServerMain`
 
 ---
 
@@ -31,6 +25,6 @@ Exercise steps:
 6. Decouple the upload request from the JavaFX thread
 7. Build-in timeout constraints for the upload process
 
-All changes can be made in the classes `kmeans.KMeans.java` and `app.ui.UIController.java`
+All changes can be made in the classes `kmeans.KMeans.java` and `kmaens.imagedata.util.Tools.java`,`util.FileIOHelper.java` and `app.ui.UIController.java`
 
 ---

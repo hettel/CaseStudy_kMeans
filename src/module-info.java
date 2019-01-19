@@ -12,9 +12,4 @@ module kMeansCaseStudy
   requires javafx.fxml;
   requires javafx.swing;
   requires oshi.core;
-  
-  requires transitive javax.servlet.api;
-  requires org.eclipse.jetty.server;
-  requires org.eclipse.jetty.util;
-  requires org.eclipse.jetty.servlet;
 }

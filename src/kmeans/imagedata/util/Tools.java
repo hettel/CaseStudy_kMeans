@@ -41,31 +41,6 @@ public final class Tools
     return new KMeansImage(width, height, dataSet);
   }
   
-  public static KMeansImage loadDataSetFromImage(File file) throws IOException
-  {
-    //JPG-Bild einlesen
-    BufferedImage image = ImageIO.read(file);
-
-    int width = image.getWidth();
-    int height = image.getHeight();
-    
-    List<PixelData> dataSet = new ArrayList<>(width*height);
-    for (int x = 0; x < width; x++)
-    {
-      for (int y = 0; y < height; y++)
-      {
-        int pixel = image.getRGB(x, y);
-        int alpha = (pixel >> 24) & 0xff;
-        int red = (pixel >> 16) & 0xff;
-        int green = (pixel >> 8) & 0xff;
-        int blue = (pixel) & 0xff;
-
-        dataSet.add( new PixelData(x, y, alpha, red, green, blue) );
-      }
-    }
-    
-    return new KMeansImage(width, height, dataSet);
-  }
   
   public static  void storeDataSetFromImage(File file, KMeansImage image) throws IOException
   { 

@@ -3,15 +3,10 @@ package app.ui;
 import static kmeans.KMeans.pack;
 
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -22,6 +17,8 @@ import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 
+import app.util.FileIOHelper;
+import app.util.PreviewImage;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -32,11 +29,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -60,8 +54,6 @@ import javafx.stage.FileChooser;
 import kmeans.image.Centroid;
 import kmeans.imagedata.util.KMeansImage;
 import kmeans.imagedata.util.Tools;
-import util.FileIOHelper;
-import util.PreviewImage;
 import util.hal.CpuInfoPublisher;
 
 public class UIController implements Initializable
@@ -181,23 +173,6 @@ public class UIController implements Initializable
     }
   }
 
-  @FXML
-  public void upload()
-  {
-    if (this.kMeansImageView == null || this.kMeansImageView.getImage() == null)
-      return;
-
-    Image image = this.kMeansImageView.getImage();
-
-    try
-    {
-      uploadImageToService(image);
-    }
-    catch (Exception exce)
-    {
-      this.showDialog("Sorry, Exception occured");
-    }
-  }
 
   @FXML
   public void applyKMean()
@@ -293,17 +268,6 @@ public class UIController implements Initializable
     }
   }
 
-  private void showDialog(String text)
-  {
-    Alert error = new Alert(AlertType.ERROR);
-    error.setTitle("ERROR");
-    error.setContentText(text);
-
-    DialogPane dialogPane = error.getDialogPane();
-    dialogPane.getStylesheets().addAll(this.mainWindow.getScene().getStylesheets());
-
-    error.showAndWait();
-  }
 
   private void showColorMap(Collection<Centroid> centroids)
   {
@@ -382,50 +346,7 @@ public class UIController implements Initializable
     return imageOut;
   }
 
-  private boolean uploadImageToService(Image image)
-  {
-    BufferedImage imageOut = this.getBufferedImage(image);
 
-    try
-    {
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      ImageIO.write(imageOut, "jpg", baos);
-      baos.flush();
-
-      byte[] content = baos.toByteArray();
-
-      URL url = new URL("http://localhost:8080/service/upload");
-      HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-      connection.setRequestMethod("POST");
-      connection.setDoInput(true);
-      connection.setDoOutput(true);
-      connection.setUseCaches(false);
-      connection.setRequestProperty("Content-Type", "image/jpg");
-      connection.setRequestProperty("Content-Length", String.valueOf(content.length));
-
-      DataOutputStream writer = new DataOutputStream(connection.getOutputStream());
-      writer.write(content);
-      writer.flush();
-
-      BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-
-      for (String line; (line = reader.readLine()) != null;)
-      {
-        System.out.println(line);
-      }
-
-      writer.close();
-      reader.close();
-
-      System.out.println("Upload done");
-    }
-    catch (Exception e)
-    {
-      throw new RuntimeException(e);
-    }
-
-    return true;
-  }
   
   // --------- progress handling ---------
 
