@@ -9,8 +9,12 @@ package kmeans.image;
 public class PixelData
 {
   public final int x,y;
+  // public visibility for performance reasons
   public int alpha;
   public int red,green,blue;
+  
+  //derived attribute
+  private int rgb; 
   
   public int centroidId;
   
@@ -23,16 +27,20 @@ public class PixelData
     this.red = red;
     this.green = green;
     this.blue = blue;
+    
+    this.rgb = (this.alpha << 24) | (this.red << 16) | (this.green << 8) | this.blue;
   }
-  
   
   public int getRgbColor()
   {
-    return (this.alpha << 24) | (this.red << 16) | (this.green << 8) | this.blue;
+    return this.rgb;
   }
+  
   
   public void setRgbColor(int rgb)
   {
+    this.rgb = rgb;
+    
     this.alpha = (rgb >> 24) & 0xff;
     this.red = (rgb >> 16) & 0xff;
     this.green = (rgb >> 8) & 0xff;

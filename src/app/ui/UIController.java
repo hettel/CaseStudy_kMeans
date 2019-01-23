@@ -356,6 +356,8 @@ public class UIController implements Initializable
   {
     try
     {
+      clusterSelect.setDisable(true);
+      
       progress = FXMLLoader.load(getClass().getResource("progress.fxml"));
       progress.getStylesheets().add(getClass().getResource("ui.css").toExternalForm());
 
@@ -375,6 +377,8 @@ public class UIController implements Initializable
     this.startBtn.setDisable(false);
     if (progress != null)
     {
+      clusterSelect.setDisable(false);
+      
       this.kMeansImageContainer.getChildren().remove(alternativeImageView);
       this.kMeansImageContainer.getChildren().remove(progress);
       this.kMeansImageContainer.getChildren().add(kMeansImageView);

@@ -1,4 +1,4 @@
-# K-Means-CaseStudy
+# K-Means Case Study
 
 This project is a starting point for an exercise to speedup an Java application by applying parallel concepts.
 
@@ -9,22 +9,27 @@ This project is part of a lesson hold on the university of applied sciences Kais
 Usage condition:
 * OpenJDK 11 is required
 * Dependencies to JavaFX and other libraries are managed by Maven
+* Tested on Win 10
 
 Main class: `app.SimpleKMeans`
 
 
 ---
 
-Exercise steps: 
+Performance bottlenecks and problems to solve in the exercise: 
 
-1. Decouple the k-means calculation from the JavaFX thread
-2. Changing the k-means algorithm so that Java-Streams are used
-3. Improve the startup time of the application
-4. Improve the loading of the pre images
-5. Improve the k-means calculation time by using parallel Streams. Introduce appropriate user defined collectors
-6. Decouple the upload request from the JavaFX thread
-7. Build-in timeout constraints for the upload process
+1. Start of the application (the method `initialize` in the class `app.ui.UIController`)
+2. The creation of the color list in `kmeans.imagedata.util.KMeansImage`
+3. Loading and creation of the preview images in `util.FileIOHelper`
+4. Calculation of the color reduced image in the class `kmeans.KMeans`
+5. During the calculation of the color reduced image the application is not responsive 
 
-All changes can be made in the classes `kmeans.KMeans.java` and `kmaens.imagedata.util.Tools.java`,`util.FileIOHelper.java` and `app.ui.UIController.java`
+Refactoring tasks:
+
+1. Decouple the hardware initialization from the start-up (task parallelism)
+2. Decouple the k-means calculation from the JavaFX thread (task parallelism)
+3. Improve the loading of the pre images (data parallelism)
+4. Changing the k-means algorithm so that parallel Java-Streams are used. Introduce appropriate user defined collectors (data parallelism)
+5. Build-in timeout constraints for the asynchron tasks
 
 ---
