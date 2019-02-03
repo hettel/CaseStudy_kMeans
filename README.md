@@ -6,17 +6,29 @@ Starting from a simple naive implementation it is step by step shown how to appl
 
 This project is part of a lesson hold on the university of applied sciences Kaiserslautern.
 
-Usage condition:
-* OpenJDK 11 is required
-* Dependencies to JavaFX and other libraries are managed by Maven
-* Tested on Win 10
+Remarks
+* The project was build with OpenJDK 11 
+* The application uses [oshi](https://github.com/oshi/oshi) (Native Operating System and Hardware Information)
+* Dependencies to JavaFX and the oshi libraries are managed by Maven
 
 Main class: `app.SimpleKMeans`
 
 
 ---
 
-Performance bottlenecks and problems to solve in the exercise: 
+### The Show Case Application
+
+The application offers a simple user interface. You can load a directory with jpg- and png-files. The contents of the directory are shown below.
+
+A selected image displayed on the left can be color reduced by using the k-means algorithm. The value for k can be selected. After processing the main colors and the color reduced image are shown. The colored reduced image can be saved as an png-file. 
+
+<img src="images/ui.jpg" alt="drawing" width="600"/>
+
+---
+
+### Exercise
+
+Performance bottlenecks and problems to be solved: 
 
 1. Start of the application (the method `initialize` in the class `app.ui.UIController`)
 2. The creation of the color list in `kmeans.imagedata.util.KMeansImage`

@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import javafx.scene.image.ImageView;
 
 public final class FileIOHelper
@@ -18,32 +19,43 @@ public final class FileIOHelper
   }
 
   public static List<ImageView> loadPreViewImages(File imageFolder)
-  {
-    File[] listOfFiles = imageFolder.listFiles( (File dir, String name) -> name.endsWith(".jpg") );
+  {  
+    File[] listOfFiles = imageFolder.listFiles((File dir, String name) -> name.endsWith(".png") || name.endsWith(".jpg") );
 
     List<ImageView> imageViews = new ArrayList<>();
+    for (final File imageFile : listOfFiles)
+    {
+      PreviewImage image = createPreviewImage(imageFile);
+      ImageView imageView = createImageView(image);
+      imageViews.add(imageView);
+    }
+
+    return imageViews;
+  }
+
+  private static PreviewImage createPreviewImage(File imageFile)
+  {
     try
     {
-      for (final File imageFile : listOfFiles)
-      {
-        byte[] bytes = Files.readAllBytes(Paths.get(imageFile.getAbsolutePath()));
-        InputStream iStream = new ByteArrayInputStream(bytes);
+      byte[] bytes = Files.readAllBytes(Paths.get(imageFile.getAbsolutePath()));
+      InputStream iStream = new ByteArrayInputStream(bytes);
 
-        PreviewImage image = new PreviewImage(iStream, imageFile);
-
-        ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(80);
-        imageView.setPreserveRatio(true);
-        imageView.setSmooth(true);
-        imageView.setCache(true);
-        imageViews.add(imageView);
-      }
+      return new PreviewImage(iStream, imageFile);
     }
     catch (IOException exce)
     {
       exce.printStackTrace();
+      throw new RuntimeException(exce);
     }
+  }
 
-    return imageViews;
+  private static ImageView createImageView(PreviewImage image)
+  {
+    ImageView imageView = new ImageView(image);
+    imageView.setFitHeight(80);
+    imageView.setPreserveRatio(true);
+    imageView.setSmooth(true);
+    imageView.setCache(true);
+    return imageView;
   }
 }

@@ -25,7 +25,7 @@ public class SimpleKMeans extends Application
     {
       e.printStackTrace();
     }
-    System.out.println("Time to start " + (System.currentTimeMillis() - time) + " [ms]");
+    System.out.println("Time to start the application " + (System.currentTimeMillis() - time) + " [ms]");
   }
 
   public static void main(String[] args)

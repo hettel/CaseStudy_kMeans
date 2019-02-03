@@ -54,11 +54,10 @@ public final class KMeans
   {
     List<PixelData> dataSet = image.pixels;
     
-    // Get all different colors
+    // Get all different colors and calculate equally distributed 
+    // colors for the centroids
     List<Integer> rgbColors = image.getSortedRgbColors();
     int chunkSize = rgbColors.size()/k;
-    
-    // Determine equally distributed colors for the centroids
     Centroid[] centroids = new Centroid[k];
     for(int centroidId=0; centroidId<k; centroidId++)
     {
@@ -69,7 +68,7 @@ public final class KMeans
       centroids[centroidId] = new Centroid(rgb);
     }
     
-    // count variable for data points that change a cluster
+    // count variable for data points changing a cluster
     int changes;
     do
     {
@@ -116,16 +115,18 @@ public final class KMeans
 
   private static double rgbDistance(PixelData c1, Centroid c2)
   {
+    double aDif = c1.alpha - c2.alpha;
     double rDif = c1.red - c2.red;
     double gDif = c1.green - c2.green;
     double bDif = c1.blue - c2.blue;
 
     // In general we don't need the square root by comparing distances
     // because we are only interested in relative relations
-    return Math.sqrt(rDif * rDif + gDif * gDif + bDif * bDif);
+    // Alpha could also be omitted.
+    return Math.sqrt(aDif * aDif + rDif * rDif + gDif * gDif + bDif * bDif);
   }
 
-  // Calculates means in a non performant way
+  // Calculates mean values in a non performant way
   // We can do better
   private static Centroid[] getNewCentroids(List<PixelData> dataList, Centroid[] centroids)
   {

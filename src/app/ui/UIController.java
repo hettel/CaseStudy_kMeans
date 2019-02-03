@@ -156,16 +156,18 @@ public class UIController implements Initializable
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Save File");
     fileChooser.setInitialDirectory(Paths.get(".").toFile());
+    fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG Files (*.png)", "*.png"));
     File file = fileChooser.showSaveDialog(mainWindow.getScene().getWindow());
+    
 
-    if (this.kMeansImageView == null || this.kMeansImageView.getImage() == null)
+    if (file == null || this.kMeansImageView == null || this.kMeansImageView.getImage() == null)
       return;
 
     try
     {
       Image image = this.kMeansImageView.getImage();
       BufferedImage outImage = this.getBufferedImage(image);
-      ImageIO.write(outImage, "jpg", file);
+      ImageIO.write(outImage, "png", file);
     }
     catch (IOException e)
     {
@@ -181,6 +183,7 @@ public class UIController implements Initializable
       return;
 
     // Starting a progress indicator
+    // (It does not correctly working in this version)
     showProgressIndicator();
     
     int k = clusterSelect.getSelectionModel().getSelectedItem();
@@ -188,22 +191,30 @@ public class UIController implements Initializable
     // Get the image (left side) an transform it to an internal data structure
     KMeansImage imageCopy = Tools.getKMeanImage(this.mainImageView.getImage());
 
+    // Print some information
     System.out.println("Amount of pixels : " + imageCopy.getPixelCount());
-    System.out.println("Amount of different colors : " + imageCopy.getColorCount() );
+    int colorCount = imageCopy.getColorCount();
+    System.out.println("Amount of different colors : " +  colorCount );
+    if( colorCount < k )
+    {
+      System.out.println("Adjust k to " + colorCount );
+      k = colorCount;
+    }
 
-    // Make the color reduction and get the mean colors 
+    // Make the color reduction and get the mean colors back
     Collection<Centroid> centroids = pack(imageCopy, k);
+    
+    // Display the mean colors
     showColorMap(centroids);
 
-    // Creating the image for showing it on the ui (on the right)
+    // Creating the image for showing it on the ui (right side)
     BufferedImage imageOut = new BufferedImage(imageCopy.width, imageCopy.height, BufferedImage.TYPE_INT_RGB);
-    imageCopy.pixels.stream().forEach(data -> {
-      int rgb = (data.alpha << 24) | (data.red << 16) | (data.green << 8) | data.blue;
-      imageOut.setRGB(data.x, data.y, rgb);
-    });
+    imageCopy.pixels.stream().forEach(data -> 
+      imageOut.setRGB(data.x, data.y, data.getRgbColor() ) );
     this.kMeansImageView.setImage(SwingFXUtils.toFXImage(imageOut, null));
     
     // Stop the progress indicator
+    // (It does not correctly working in this version)
     closeProgressIndicator();
   }
 
@@ -228,7 +239,7 @@ public class UIController implements Initializable
     this.colorMap = new Label[] { color1, color2, color3, color4, color5, color6, color7, color8, color9 };
     cpuLoadBar.setFill(Color.GREEN);
 
-    // Init the hardware detection for getting the cpu load
+    // Initialize the hardware detection for getting the CPU load
     publisher = CpuInfoPublisher.getInstance();
     publisher.subscribe(value -> Platform.runLater(() -> {
       repaintGradient(value);
@@ -236,7 +247,7 @@ public class UIController implements Initializable
     }));
   }
 
-  // Farbgradienten für Statusbalken
+  // Color gradient for CPU load
   private final Stop[] stops = new Stop[] { new Stop(0, Color.GREEN), new Stop(1, Color.RED) };
 
   private void repaintGradient(double value)
