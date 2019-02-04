@@ -13,12 +13,19 @@ Remarks
 
 Main class: `app.SimpleKMeans`
 
+Build command:
+
+`mvn clean install`
+
+Run command:
+
+`java -p modules;lib -m kMeansCaseStudy/app.SimpleKMeans`
 
 ---
 
 ### The Show Case Application
 
-The application offers a simple user interface. You can load a directory with jpg- and png-files. The contents of the directory are shown below.
+The application offers a simple user interface. You can load a directory with jpg- and png-files. The contents of the directory are shown below on the UI.
 
 A selected image displayed on the left can be color reduced by using the k-means algorithm. The value for k can be selected. After processing the main colors and the color reduced image are shown. The colored reduced image can be saved as an png-file. 
 

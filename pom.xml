@@ -7,12 +7,60 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
+
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>**/*.css</include>
+					<include>**/*.fxml</include>
+					<include>**/*.jpg</include>
+				</includes>
+			</resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
+				<version>3.8.0</version>
 				<configuration>
 					<release>11</release>
+				</configuration>
+			</plugin>
+
+			<!-- Copy dependencies to /lib -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Build an executable JAR -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<outputDirectory>modules</outputDirectory>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>libs/</classpathPrefix>
+							<mainClass>app.SimpleKMeans</mainClass>
+						</manifest>
+					</archive>
 				</configuration>
 			</plugin>
 		</plugins>
