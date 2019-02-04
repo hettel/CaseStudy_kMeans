@@ -15,7 +15,7 @@ Main class: `app.SimpleKMeans`
 
 Build command:
 
-`mvn clean install`
+`mvn clean package`
 
 Run command:
 

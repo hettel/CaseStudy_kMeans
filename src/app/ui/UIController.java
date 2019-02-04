@@ -182,6 +182,10 @@ public class UIController implements Initializable
     if (this.mainImageView.getImage() == null)
       return;
 
+    System.out.println("Start Processing ");
+    long start = System.currentTimeMillis();
+
+    
     // Starting a progress indicator
     // (It does not correctly working in this version)
     showProgressIndicator();
@@ -216,6 +220,8 @@ public class UIController implements Initializable
     // Stop the progress indicator
     // (It does not correctly working in this version)
     closeProgressIndicator();
+    
+    System.out.println("Finish Processing " + (System.currentTimeMillis() - start) + "[ms]");
   }
 
   @FXML

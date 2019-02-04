@@ -8,6 +8,7 @@
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 
+        <!-- Resources to be included in the jar -->
 		<resources>
 			<resource>
 				<directory>src</directory>

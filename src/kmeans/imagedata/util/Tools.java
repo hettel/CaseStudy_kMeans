@@ -41,18 +41,4 @@ public final class Tools
     return new KMeansImage(width, height, dataSet);
   }
   
-  
-  public static  void storeDataSetFromImage(File file, KMeansImage image) throws IOException
-  { 
-    BufferedImage imageOut = new BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB);
-    
-    image.pixels.stream().forEach( data -> {
-      int rgb = data.getRgbColor();
-      imageOut.setRGB(data.x, data.y, rgb);
-    } );
-    
-    ImageIO.write(imageOut, "jpg", file);
-    
-    return;
-  }
 }

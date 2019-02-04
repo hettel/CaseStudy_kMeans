@@ -46,7 +46,7 @@ public final class KMeans
       }
     }
 
-    System.out.println("done " + (System.currentTimeMillis() - time) + " [ms]");
+    System.out.println("Finish k-Means " + (System.currentTimeMillis() - time) + " [ms]");
     return clusterMap.keySet();
   }
 
@@ -69,10 +69,10 @@ public final class KMeans
     }
     
     // count variable for data points changing a cluster
-    int changes;
+    long changes;
     do
     {
-      changes = 0;
+      changes = 0L;
 
       for (PixelData dataPoint : dataSet)
       {
@@ -87,7 +87,7 @@ public final class KMeans
         }
       }
       
-      if( changes == 0 )
+      if( changes == 0L )
         break;
       
       // Calculate mean for every cluster and return a new array
