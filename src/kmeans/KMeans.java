@@ -31,7 +31,7 @@ public final class KMeans
    */
   public static Collection<Centroid> pack(KMeansImage image, final int k)
   {
-    System.out.println("Start k-Means");
+    System.out.println("  -> Start k-Means");
     long time = System.currentTimeMillis();
 
     Map<Centroid, List<PixelData>> clusterMap = buildCluster(image, k);
@@ -46,7 +46,7 @@ public final class KMeans
       }
     }
 
-    System.out.println("Finish k-Means " + (System.currentTimeMillis() - time) + " [ms]");
+    System.out.println("  -> Finish k-Means " + (System.currentTimeMillis() - time) + " [ms]");
     return clusterMap.keySet();
   }
 

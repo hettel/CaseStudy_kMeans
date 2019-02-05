@@ -5,6 +5,12 @@ import java.util.stream.Collectors;
 
 import kmeans.image.PixelData;
 
+/**
+ * Abstraction for the image
+ * 
+ * Represent the data necessary for applying the k-means algorithm
+ *
+ */
 public class KMeansImage
 {
   public final int width;

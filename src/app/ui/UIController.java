@@ -187,7 +187,7 @@ public class UIController implements Initializable
 
     
     // Starting a progress indicator
-    // (It does not correctly working in this version)
+    // (Not working in this version)
     showProgressIndicator();
     
     int k = clusterSelect.getSelectionModel().getSelectedItem();
@@ -196,12 +196,12 @@ public class UIController implements Initializable
     KMeansImage imageCopy = Tools.getKMeanImage(this.mainImageView.getImage());
 
     // Print some information
-    System.out.println("Amount of pixels : " + imageCopy.getPixelCount());
+    System.out.println("  Amount of pixels : " + imageCopy.getPixelCount());
     int colorCount = imageCopy.getColorCount();
-    System.out.println("Amount of different colors : " +  colorCount );
+    System.out.println("  Amount of different colors : " +  colorCount );
     if( colorCount < k )
     {
-      System.out.println("Adjust k to " + colorCount );
+      System.out.println("  Adjust k to " + colorCount );
       k = colorCount;
     }
 
@@ -218,7 +218,7 @@ public class UIController implements Initializable
     this.kMeansImageView.setImage(SwingFXUtils.toFXImage(imageOut, null));
     
     // Stop the progress indicator
-    // (It does not correctly working in this version)
+    // (Not working in this version)
     closeProgressIndicator();
     
     System.out.println("Finish Processing " + (System.currentTimeMillis() - start) + "[ms]");
@@ -272,12 +272,6 @@ public class UIController implements Initializable
       mainImageView.setPreserveRatio(true);
       mainImageView.setSmooth(true);
       mainImageView.setCache(true);
-
-      iStream = new ByteArrayInputStream(bytes);
-      kMeansImageView.setImage(new Image(iStream));
-      kMeansImageView.setPreserveRatio(true);
-      kMeansImageView.setSmooth(true);
-      kMeansImageView.setCache(true);
     }
     catch (IOException exce)
     {

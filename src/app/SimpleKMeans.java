@@ -17,7 +17,7 @@ public class SimpleKMeans extends Application
       BorderPane root = (BorderPane) FXMLLoader.load(getClass().getResource("ui/ui.fxml"));
       Scene scene = new Scene(root);
       scene.getStylesheets().add(getClass().getResource("ui/ui.css").toExternalForm());
-      primaryStage.setTitle("Simple version");
+      primaryStage.setTitle("Simple Version");
       primaryStage.setScene(scene);
       primaryStage.show();
     }
@@ -25,7 +25,7 @@ public class SimpleKMeans extends Application
     {
       e.printStackTrace();
     }
-    System.out.println("Time to start the application " + (System.currentTimeMillis() - time) + " [ms]");
+    System.out.println("Application startup time : " + (System.currentTimeMillis() - time) + " [ms]");
   }
 
   public static void main(String[] args)

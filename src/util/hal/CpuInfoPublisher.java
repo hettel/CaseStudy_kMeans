@@ -16,6 +16,7 @@ import oshi.hardware.CentralProcessor;
 
 public class CpuInfoPublisher implements Publisher<Double>
 {
+  // Task for reading and publishing the CPU load
   private static class SystemCpuLoadTask implements Runnable
   {
     private final SystemInfo si;
@@ -58,7 +59,7 @@ public class CpuInfoPublisher implements Publisher<Double>
 
   private ScheduledExecutorService executor;
 
-  private final int OBSERVATION_PERIOD = 10; // in Millisekunden
+  private final int OBSERVATION_PERIOD = 10; // milliseconds
   private SubmissionPublisher<Double> publisher;
 
   private CpuInfoPublisher()
@@ -84,7 +85,7 @@ public class CpuInfoPublisher implements Publisher<Double>
     this.publisher.subscribe(subscriber);
   }
 
-  // Convenience Methode
+  // Convenience Method used by the application
   public void subscribe(Consumer<? super Double> subscriber)
   {
     publisher.subscribe(new Subscriber<Double>()

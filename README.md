@@ -17,7 +17,9 @@ Build command:
 
 `mvn clean package`
 
-Run command:
+The command create a lib and module directory that contains the dependencies and module runnable.
+
+Start the application:
 
 `java -p modules;lib -m kMeansCaseStudy/app.SimpleKMeans`
 
