@@ -62,7 +62,7 @@ public final class KMeans
     for(int centroidId=0; centroidId<k; centroidId++)
     {
       int lowerBound = centroidId*chunkSize;
-      int upperBound = (centroidId+1)*chunkSize < dataSet.size() ? (centroidId+1)*chunkSize : dataSet.size();
+      int upperBound = (centroidId+1)*chunkSize < rgbColors.size() ? (centroidId+1)*chunkSize : rgbColors.size();
       int randPixelInChunk = ThreadLocalRandom.current().nextInt(lowerBound, upperBound);
       int rgb = rgbColors.get(randPixelInChunk);
       centroids[centroidId] = new Centroid(rgb);
