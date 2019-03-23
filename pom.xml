@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>K-Means-CaseStudy</groupId>
 	<artifactId>K-Means-CaseStudy</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>K-Means-BaseVersion</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 
