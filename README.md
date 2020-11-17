@@ -1,12 +1,13 @@
 # K-Means Case Study
 
-This project is a starting point for an exercise to speedup an Java application by applying parallel concepts.
+This project is a starting point for an exercise to speedup the Java application by applying parallel concepts.
 
-Starting from a simple naive implementation it is step by step shown how to apply several patterns to increase reactivity and response time.
+Starting from a simple naive implementation (the code provided in this repository) 
+students should apply several patterns to increase reactivity and response time of the application.
 
-This project is part of a lesson hold on the university of applied sciences Kaiserslautern.
+This project is part of the lesson *Java Concurrency* hold on the university of applied sciences Kaiserslautern.
 
-Remarks
+Some remarks
 * The project was build with OpenJDK 11 
 * The application uses [oshi](https://github.com/oshi/oshi) (Native Operating System and Hardware Information)
 * Dependencies to JavaFX and the oshi libraries are managed by Maven
@@ -27,9 +28,9 @@ Start the application:
 
 ### The Show Case Application
 
-The application offers a simple user interface. You can load a directory with jpg- and png-files. The contents of the directory are shown below on the UI.
+The application offers a simple user interface. You can load a directory with jpg- and png-files. The content of the directory are shown as small preview images below on the UI.
 
-A selected image displayed on the left can be color reduced by using the k-means algorithm. The value for k can be selected. After processing the main colors and the color reduced image are shown. The colored reduced image can be saved as an png-file. 
+A selected image is displayed on the left and can be color reduced by using the k-means algorithm. The value for k can be selected. After processing the found colors and the color reduced image are shown. The colored reduced image can be saved as an png-file. Note that the result of the k-means algorithm is not deterministic.
 
 <img src="images/ui.jpg" alt="drawing" width="600"/>
 
@@ -51,6 +52,6 @@ Refactoring tasks:
 2. Decouple the k-means calculation from the JavaFX thread (task parallelism)
 3. Improve the loading of the pre images (data parallelism)
 4. Changing the k-means algorithm so that parallel Java-Streams are used. Introduce appropriate user defined collectors (data parallelism)
-5. Build-in timeout constraints for the asynchron tasks
+5. Build-in timeout constraints for the asynchronous tasks
 
 ---
